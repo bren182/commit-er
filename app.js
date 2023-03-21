@@ -1,1 +1,3 @@
-console.log("Commit-er!");
+require('dotenv').config();
+console.log(process.env.APP_ID);
+
