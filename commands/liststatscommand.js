@@ -7,10 +7,12 @@ module.exports = {
 
     async execute(interaction) {
         var string = await showStats();
-        var string = showStats();
-        var statsResponse = "```Here are some stats: \n"
+        
+        var statsResponse = "```Commit statistics on " +  moment().format("YYYY-MM-DD hh:mm") + ":\n"
+        + "-------------------------------------" + "\n"
         + "Total commits: " + string.length + "\n"
-        + "Commits today: " + string.filter((x) => x.date >= moment().format('YYYY-MM-DD')).length + "```"
+        + "Commits today: " + string.filter((x) => x.date >= moment().format('YYYY-MM-DD')).length + "\n"
+        + "-------------------------------------" + "```"
         interaction.reply(statsResponse);
         
         
