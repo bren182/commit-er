@@ -54,12 +54,20 @@ client.on(Events.InteractionCreate, async interaction => {
 
 client.on("messageCreate", message => {
     if (!message.author.bot) {
-        console.log(message);
+        // console.log(message);
         const args = message.content.slice("echo".length).trim().split(' ');
         const command = args.shift().toLowerCase();
 
         message.channel.send(`Command name: ${command} \n Arguments: ${args}`);
     }
+
+});
+
+const cron = require('node-cron');
+
+cron.schedule('*/10 * * * * *', () => {
+    // console.log("Hi!");
+    client.channels.fetch("729310559471796227").then(x => x.send("Hi!"))
 
 });
 
