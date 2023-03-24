@@ -1,8 +1,10 @@
 // Require the necessary discord.js classes
 const { Client, Events, GatewayIntentBits, Collection } = require('discord.js');
+const { HasNotCommitted } = require('./data/data_helper');
 const fs = require('node:fs');
 const path = require('node:path');
 require('dotenv').config();
+let HasPostedCommit = false;
 
 // Create a new client instance
 const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.DirectMessages, GatewayIntentBits.MessageContent], partials: ["CHANNEL", "MESSAGE", "REACTION"] });
@@ -65,11 +67,34 @@ client.on("messageCreate", message => {
 
 const cron = require('node-cron');
 
-cron.schedule('*/10 * * * * *', () => {
-    // console.log("Hi!");
-    client.channels.fetch("729310559471796227").then(x => x.send("Hi!"))
+
+cron.schedule('30 * * * * *', () => {
+    // run every 10 seconds
+    // check if HasPostedCommit message to channel
+    var committed = HasNotCommitted();
+    if(!HasPostedCommit) {
+       
+    
+
+        client.channels.fetch("729310559471796227").then(x => x.send(committed[1]));
+        if(committed[0]) {
+            HasPostedCommit = true;
+        }
+        else {
+            HasPostedCommit = false;
+        }
+    }
+    else {
+        if(!committed[0]) {
+            client.channels.fetch("729310559471796227").then(x => x.send(committed[1]));
+        }
+    }
+    
+    
 
 });
+
+
 
 // Log in to Discord with your client's token
 client.login(process.env.BOT_TOKEN);
