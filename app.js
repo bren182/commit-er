@@ -68,9 +68,16 @@ client.on("messageCreate", message => {
 const cron = require('node-cron');
 
 
-cron.schedule('30 * * * * *', () => {
+cron.schedule('* 30 * * * *', () => {
     // run every 10 seconds
     // check if HasPostedCommit message to channel
+    PostChannelMessage();
+    RemindUsers();
+    
+
+});
+
+function PostChannelMessage() {
     var committed = HasNotCommitted();
     if(!HasPostedCommit) {
        
@@ -89,10 +96,7 @@ cron.schedule('30 * * * * *', () => {
             client.channels.fetch("729310559471796227").then(x => x.send(committed[1]));
         }
     }
-    
-    
-
-});
+}
 
 
 

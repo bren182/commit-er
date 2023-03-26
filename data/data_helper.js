@@ -6,20 +6,25 @@ var obj = {
     
 }
 
-function appendData(data) {
+async function appendData(newData) {
     // data must be in json format.
-    fs.readFile("data/users_data.json", "utf-8", function readCallBack(err,data) {
+   fs.readFile("data/users_data.json", "utf-8", function readCallBack(err,data) {
         if(err) {
             console.error(err);
         } else {
  
-            obj = JSON.parse(data);
-            obj.push(data)
-            var json  = JSON.stringify(obj);
+            obj = JSON.parse(data);        
+            obj.push(JSON.parse(newData));
+            // var x = JSON.parse(newData);
+            // obj.append(x)
+        
+            fs.writeFileSync("data/users_data.json", JSON.stringify(obj, null, 2));
+
   
-            appendData(json);
         }
     });
+    
+
 }
 
 
